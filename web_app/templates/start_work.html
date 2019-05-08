@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="p-5 mb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h2>
+                    {{ current_user.username }}, приступим к работе!<br>
+                    Что будем делать сегодня?
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-3">
+    <div class="row justify-content-around">
+        <div class="col-5 p-5 mb-1 bg-secondary text-center text-white">
+            <h3> Исследовать новое изображение</h3><br>
+            <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#exampleModal">
+            Начать
+            </button>
+                  <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form enctype="multipart/form-data" method="post">
+                            <div class="modal-body text-dark">
+                
+                                <p><input type="file" name="upload" accept="image/*"></p>
+                            
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-info btn-block" role="button">
+                                Начать
+                          </button>
+
+                        </div>
+                    </form>
+                      </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-5 p-5 mb-1 bg-secondary text-center text-white">
+            <h3>Просмотр существующий данных</h3><br>
+            <a class="btn btn-info btn-block" href="{{ url_for('projects') }}" role="button">
+                Начать
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

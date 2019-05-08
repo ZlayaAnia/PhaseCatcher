@@ -1,0 +1,7 @@
+/.git
+/.idea
+/env
+/__pycache__
+/uploads
+/web_app/__pycache__/
+/bootstrap-4.3.1-dist/

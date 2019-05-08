@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+
+
+
+<form  enctype=multipart/form-data method="POST">
+<div class="container">
+    <div class="row">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-warning" role="alert">
+            {% for message in messages %}
+            {{ message }}<br>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Название</th>
+                <th scope="col">Увеличение при съемке</th>
+                <th scope="col">Бинаризация min/max</th>
+                <th scope="col">Выбор частиц min/max</th>
+                <th scope="col">Имя файла</th>
+                <th scope="col">Дата/Время</th>
+            </tr>
+            </thead>
+
+            {% for list in list_join %}
+
+            <tbody>
+            <tr>
+                <th scope="row">{{ list.id }}</th>
+                <td>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalLong{{ list.id }}">
+                        {{ list.sample_name }}
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalLong{{ list.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">{{ list.files.file_name }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card" style="width: 18rem;">
+                                        <img class="card-img-top" src="/workdir/final_{{ list.files.file_name }}" alt= {{ list.files.file_name }}>
+                                        <div class="card-body">
+                                            <p class="card-text"> {{ list.comment }}</p>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">Средний размер, нм</th>
+                                            <td>{{ list.average_size }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Отклонение, нм</th>
+                                            <td>{{ list.deviation_size }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Количество частиц</th>
+                                            <td>{{ list.particles_number }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div id="container" style=" margin: 0 auto"></div>
+                                    {% for experiment in experiment_list %}
+                                    {% if experiment.file_id == list.files.id %}
+                                    <img class="card-img-top" src="/workdir/graph_{{ experiment.experiment_time.strftime('%B%d%Y%H%M%S') }}{{ list.files.file_name }}" alt= {{ list.files.file_name }}>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ list.image_scale }}</td>
+                <td>{{ list.binar_min }}/{{ list.binar_max }}</td>
+                <td>{{ list.particle_min }}/{{ list.particle_max }}</td>
+                <td>{{ list.files.file_name }}</td>
+                <td>{{ list.experiment_time.strftime('%B %d, %Y %H:%m')  }}</td>
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+    </div>
+</div>
+</form>
+
+<div class="container">
+    <div class="row">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Средний размер, нм</th>
+                <th scope="col">Отклонение, нм</th>
+                <th scope="col">Количество частиц</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ average_dict['average_size'] }}</td>
+                <td>{{ average_dict['average_dv'] }}</td>
+                <td>{{ average_dict['average_pn'] }}</td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+{% endblock %}
