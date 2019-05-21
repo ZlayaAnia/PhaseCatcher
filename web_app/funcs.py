@@ -10,6 +10,9 @@ from web_app.forms import DownloadForm
 from web_app.model import db, Experiment, Files
 
 
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'bmp', 'jpg', 'jpeg', 'gif'])
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
 
@@ -21,8 +24,6 @@ def get_html(url):
     except(requests.Exception, ValueError):
         print('Сетевая ошибка')
         return False
-
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'bmp', 'jpg', 'jpeg', 'gif'])
 
 def allowed_file(filename):
     return '.' in filename and \
